@@ -14,11 +14,11 @@
 
 .navbar-app {
     min-height: 80px;
-    border-color: #ccc;
-    background: #00ff40;
+    border-color: rgb(185, 179, 179);
+    background: #17d447;
     border-width: 1px;
     border-style: solid;
-    color: #00ff40;
+    color: #17d447;
   }
 .navbar-brand-center {
   position: absolute;
@@ -43,20 +43,20 @@
   }
   
   .panel-primary {
-    border-color: #00ff40;
+    border-color: #17d447;
   }
   
   .panel-primary > .panel-heading {
     color: #fff;
-    background-color: #00ff40;
+    background-color: #17d447;
     border-color: #007aff;
   }
   .panel-default, .well blockquote {
-    border-color: #00ff40;
+    border-color: #17d447;
 }
 .panel-primary > .panel-heading {
   color: #fff;
-  background-color: #00ff40;
+  background-color: #17d447;
   border-color: #18a316;
 }
   .panel-title {
@@ -75,14 +75,14 @@
   .btn-group > .btn-default.active,
   .btn-group > .btn-default.active:focus {
     color: rgb(0, 0, 0);
-    background-color: #00ff40;
-    border-color: #00ff40;
+    background-color: #17d447;
+    border-color: #17d447;
   }
 
   .nav-tabs > li.active > a,
   .nav-tabs > li.active > a:focus {
     color: #555555;
-    background-color: #00ff40;
+    background-color: #17d447;
     border: 1px solid #ddd;
     border-bottom-color: transparent;
     cursor: default;
@@ -91,8 +91,8 @@
   .btn-group>.btn-default.active:hover {
     color: rgb(0, 0, 0);
     font-weight: bold;
-    background-color: #00ff40;
-    border-color: #00ff40;
+    background-color: #17d447;
+    border-color: #17d447;
   }
 
   .btn-default:focus,

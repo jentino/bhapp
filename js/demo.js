@@ -7,7 +7,7 @@
 // has dependent on mobile-angular-ui
 //
 var app = angular.module('MobileAngularUiExamples', [
-  'ngRoute',
+  // 'ngRoute',
   'ui.knob',
   'ngWebSocket',
   'mobile-angular-ui',
@@ -29,11 +29,17 @@ app.run(function($transform) {
 // feature (i.e. close sidebar on backbutton) you should setup 'reloadOnSearch: false'
 // in order to avoid unwanted routing.
 //
-app.config(function($routeProvider) {
-  $routeProvider.when('/', {templateUrl: 'login.html', reloadOnSearch: false}).when('/home', {templateUrl: 'home.html', reloadOnSearch: false});
-  $routeProvider.when('/account', {templateUrl: 'account.html', reloadOnSearch: false}).when('/login', {templateUrl: 'login.html', reloadOnSearch: false}).when('/cancel', {templateUrl: 'cancel.html', reloadOnSearch: false}).when('/success', {templateUrl: 'success.html', reloadOnSearch: false}).when('/trades', {templateUrl: 'trades.html', reloadOnSearch: false}).otherwise({templateUrl: 'login.html'});
+// app.config(function($routeProvider) {
+//   $routeProvider.when('/', {templateUrl: 'home.html', reloadOnSearch: false}).otherwise({templateUrl: '.html'});
   
-});
+// });
+
+// app.config(function($routeProvider) {
+//   $routeProvider.when('/', {templateUrl: 'login.html', reloadOnSearch: false}).when('/home', {templateUrl: 'home.html', reloadOnSearch: false});
+//   $routeProvider.when('/account', {templateUrl: 'account.html', reloadOnSearch: false}).when('/login', {templateUrl: 'login.html', reloadOnSearch: false}).when('/cancel', {templateUrl: 'cancel.html', reloadOnSearch: false}).when('/success', {templateUrl: 'success.html', reloadOnSearch: false}).when('/trades', {templateUrl: 'trades.html', reloadOnSearch: false}).otherwise({templateUrl: 'login.html'});
+  
+// });
+
 
 //
 // `$touch example`
@@ -267,8 +273,8 @@ app.controller('MainController', function($rootScope, $scope, $http, $location, 
   }
 
 
-  $scope.value = 0;
-  $scope.profittarget = 0;
+  $scope.value = 100;
+  $scope.profittarget = 10;
   $scope.options = {
     unit: "%",
     readOnly: true,
