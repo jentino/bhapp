@@ -1,19 +1,103 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8" />
-    <base href="/" />
-    <title>BinaryHaven Mobile</title>
-    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
-    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-  </head>
+    <meta name="format-detection"
+          content="telephone=no" />
+    <meta name="msapplication-tap-highlight"
+          content="no" />
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <!-- Required libraries for the chat -->
+    <script src="https://cdn.pubnub.com/pubnub.min.js"></script>
+    <script src="https://cdn.pubnub.com/pubnub-crypto.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+    <script src="http://pubnub.github.io/pubnub-angular/lib/pubnub-angular.js"></script>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+  <script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
+    <title>PubNub Angular Mobile Chat</title>
+</head>
+<body>
+<div class="container" ng-app="PubNubAngularApp" ng-controller="ChatCtrl">
 
-  <body>
+<h4>Online Users</h4>
+<ul>
+  <li ng-repeat="user in users">{{user}}</li>
+</ul>
 
-    <div><h1>ProgressBar</h1></div>
-      <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-        <span id="current-progress"></span>
-      </div>
-     
-  </body>
+<br />
+
+<h4>Chat History ({{messages.length}})</h4>
+
+<form ng-submit='publish()'>
+  <input type="text" ng-model='newMessage' />
+  <input type="submit" value="Send" />
+</form>
+
+<br />
+
+<div class="well">
+<ul>
+<li ng-repeat="message in messages">{{message}}</li>
+</ul>
+</div>
+
+</div>
+
+<script>
+//
+// Set Up Your Angular Module & Controller(s)
+//
+angular.module('PubNubAngularApp', ["pubnub.angular.service"])
+.controller('ChatCtrl', function($rootScope, $scope, $location, PubNub) {
+  // make up a user id (you probably already have this)
+  $scope.userId   = "User " + Math.round(Math.random() * 1000);
+  // make up a channel name
+  $scope.channel  = 'The Angular Channel';
+  // pre-populate any existing messages (just an AngularJS scope object)
+  $scope.messages = ['Welcome to ' + $scope.channel];
+  if (!$rootScope.initialized) {
+    // Initialize the PubNub service
+    PubNub.init({
+      subscribe_key: 'sub-c-703ba3ec-9941-11e7-a9a0-d6ae8df45b79',
+      publish_key: 'pub-c-75318404-c6f2-4204-8cbb-bdff7dab8836',
+      uuid:$scope.userId
+    });
+    $rootScope.initialized = true;
+  }
+  // Subscribe to the Channel
+  PubNub.ngSubscribe({ channel: $scope.channel });
+  // Create a publish() function in the scope
+  $scope.publish = function() {
+    PubNub.ngPublish({
+      channel: $scope.channel,
+      message: "[" + $scope.userId + "] " + $scope.newMessage
+    });
+    $scope.newMessage = '';
+  };
+  // Register for message events
+  $rootScope.$on(PubNub.ngMsgEv($scope.channel), function(ngEvent, payload) {
+    $scope.$apply(function() {
+      $scope.messages.push(payload.message);
+    });
+  });
+  // Register for presence events (optional)
+  $rootScope.$on(PubNub.ngPrsEv($scope.channel), function(ngEvent, payload) {
+    $scope.$apply(function() {
+      $scope.users = PubNub.ngListPresence($scope.channel);
+    });
+  });
+  // Pre-Populate the user list (optional)
+  PubNub.ngHereNow({
+    channel: $scope.channel
+  });
+  
+  // Populate message history (optional)
+  PubNub.ngHistory({
+    channel: $scope.channel,
+    count: 500
+  });
+});
+</script>
+</body>
 </html>
